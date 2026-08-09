@@ -34,14 +34,12 @@ body {
   color: var(--text-main);
 }
 
-/* Contenedor general que ocupa toda la pantalla */
 .page-shell {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
 }
 
-/* Cada "pantalla" (estado) */
 .screen {
   position: absolute;
   inset: 0;
@@ -58,7 +56,6 @@ body {
     transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Pantalla visible */
 .screen--active {
   opacity: 1;
   pointer-events: auto;
@@ -87,17 +84,17 @@ body {
 .intro-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 24px;
+  gap: 28px;
   align-items: center;
   justify-items: center;
 }
 
-/* En pantallas grandes mostramos tres columnas */
 @media (min-width: 800px) {
   .intro-layout {
-    grid-template-columns: 1.1fr minmax(0, 1.1fr) 1.1fr;
-    max-width: 960px;
+    grid-template-columns: 1.15fr minmax(300px, 1fr) 1.15fr;
+    max-width: 1200px;
     margin: 0 auto;
+    gap: 32px;
   }
 }
 
@@ -111,6 +108,7 @@ body {
   border-radius: 24px;
   box-shadow: var(--shadow-soft);
   border: 1px solid rgba(148, 163, 184, 0.4);
+  width: min(100%, 360px);
 }
 
 .hint-text {
@@ -118,7 +116,6 @@ body {
   color: var(--text-muted);
 }
 
-/* Botones */
 .primary-button,
 .secondary-button {
   border: none;
@@ -177,6 +174,16 @@ body {
   border-radius: var(--radius-lg);
 }
 
+.intro-image {
+  width: min(100%, 340px);
+}
+
+@media (min-width: 800px) {
+  .intro-image {
+    width: min(100%, 360px);
+  }
+}
+
 .image-placeholder {
   width: 100%;
   aspect-ratio: 3 / 4;
@@ -199,6 +206,7 @@ body {
 
 .real-photo {
   width: 100%;
+  height: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
   object-position: center;
@@ -209,7 +217,11 @@ body {
 }
 
 .small-photo {
+  width: 100%;
+  height: 100%;
   aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* -------- Pantalla 2: Invitación -------- */
@@ -220,7 +232,6 @@ body {
   justify-content: center;
 }
 
-/* Fondo suave, como halo */
 .invite-background {
   position: absolute;
   inset: 0;
@@ -232,32 +243,32 @@ body {
   pointer-events: none;
 }
 
-/* Layout de la tarjeta + imágenes laterales */
 .invite-layout {
   position: relative;
   z-index: 1;
-  width: min(960px, 100%);
-  padding: 16px;
+  width: min(1200px, 100%);
+  min-height: 720px;
+  padding: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Tarjeta principal */
 .invite-card {
-  max-width: 520px;
+  max-width: 620px;
   width: 100%;
   background: radial-gradient(circle at top, #111827 0, #020617 60%);
   border-radius: 24px;
   box-shadow: var(--shadow-soft);
-  padding: 26px 22px 24px;
+  padding: 30px 26px 28px;
   border: 1px solid rgba(148, 163, 184, 0.5);
   backdrop-filter: blur(14px);
+  z-index: 2;
 }
 
 @media (min-width: 720px) {
   .invite-card {
-    padding: 32px 30px 26px;
+    padding: 36px 34px 30px;
   }
 }
 
@@ -281,30 +292,70 @@ body {
 /* Imágenes flotando alrededor */
 .invite-side-images {
   position: absolute;
-  width: 160px;
-  max-width: 40%;
+  width: 240px;
+  max-width: 28vw;
+  z-index: 1;
 }
 
 .invite-side-images--top-left {
-  top: 10%;
+  top: 6%;
   left: 4%;
 }
 
 .invite-side-images--bottom-right {
-  bottom: 4%;
+  bottom: 6%;
   right: 4%;
 }
 
-/* En móviles, acercamos las imágenes a la tarjeta */
-@media (max-width: 600px) {
+/* Ajustes móviles */
+@media (max-width: 900px) {
+  .invite-layout {
+    min-height: 640px;
+  }
+
+  .invite-side-images {
+    width: 190px;
+    max-width: 34vw;
+  }
+
   .invite-side-images--top-left {
-    top: 4%;
-    left: 3%;
+    top: 3%;
+    left: 2%;
   }
 
   .invite-side-images--bottom-right {
-    bottom: 8%;
-    right: 3%;
+    bottom: 10%;
+    right: 2%;
+  }
+}
+
+@media (max-width: 600px) {
+  .intro-image {
+    width: min(100%, 280px);
+  }
+
+  .invite-layout {
+    min-height: 620px;
+    padding: 20px 12px 72px;
+  }
+
+  .invite-card {
+    max-width: 100%;
+  }
+
+  .invite-side-images {
+    width: 150px;
+    max-width: 42vw;
+  }
+
+  .invite-side-images--top-left {
+    top: 2%;
+    left: 2%;
+  }
+
+  .invite-side-images--bottom-right {
+    bottom: 12%;
+    right: 2%;
   }
 
   .secondary-button {
