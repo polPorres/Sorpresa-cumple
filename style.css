@@ -171,9 +171,10 @@ body {
 }
 
 /* Imágenes laterales (intro) */
-.intro-image {
-  width: 100%;
-  max-width: 260px;
+.intro-image,
+.invite-side-images {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
 }
 
 .image-placeholder {
@@ -200,6 +201,7 @@ body {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
+  object-position: center;
   border-radius: var(--radius-lg);
   border: 1px solid rgba(148, 163, 184, 0.35);
   box-shadow: var(--shadow-soft);
