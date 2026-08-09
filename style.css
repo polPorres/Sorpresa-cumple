@@ -196,6 +196,20 @@ body {
   font-size: 0.75rem;
 }
 
+.real-photo {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: var(--shadow-soft);
+  display: block;
+}
+
+.small-photo {
+  aspect-ratio: 4 / 3;
+}
+
 /* -------- Pantalla 2: Invitación -------- */
 
 .screen--invite {
