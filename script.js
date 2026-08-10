@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const holdFill = document.querySelector(".hold-fill");
   const buttonText = document.querySelector(".button-text");
 
-  const HOLD_DURATION = 1200;
+  const HOLD_DURATION = 2000;
   let holdTimeout = null;
   let progressFrame = null;
   let holdStart = 0;
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function resetHoldVisual() {
     if (holdFill) holdFill.style.width = "0%";
-    if (buttonText) buttonText.textContent = "Mantén pulsado para ver la sorpresa";
+    if (buttonText) buttonText.textContent = "Mantén pulsado para abrir el regalo";
     openInviteBtn.classList.remove("is-holding");
   }
 
