@@ -226,74 +226,16 @@ body {
 
 /* -------- Pantalla 2: Invitación -------- */
 
-.screen--invite {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.rawr-photo {
+  object-fit: contain;
+  background: rgba(2, 6, 23, 0.65);
+  padding: 6px;
 }
 
-.invite-background {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at top left, rgba(248, 113, 113, 0.35) 0, transparent 55%),
-    radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.35) 0, transparent 60%),
-    radial-gradient(circle at center, rgba(15, 23, 42, 0.94) 0, #020617 55%, #000 100%);
-  opacity: 0.85;
-  pointer-events: none;
-}
-
-.invite-layout {
-  position: relative;
-  z-index: 1;
-  width: min(1200px, 100%);
-  min-height: 720px;
-  padding: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.invite-card {
-  max-width: 620px;
-  width: 100%;
-  background: radial-gradient(circle at top, #111827 0, #020617 60%);
-  border-radius: 24px;
-  box-shadow: var(--shadow-soft);
-  padding: 30px 26px 28px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
-  backdrop-filter: blur(14px);
-  z-index: 2;
-}
-
-@media (min-width: 720px) {
-  .invite-card {
-    padding: 36px 34px 30px;
-  }
-}
-
-.invite-title {
-  font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
-  margin-bottom: 10px;
-  letter-spacing: 0.02em;
-}
-
-.invite-text {
-  font-size: 0.98rem;
-  line-height: 1.7;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-}
-
-.invite-text--highlight {
-  color: #fef3c7;
-}
-
-/* Imágenes flotando alrededor */
 .invite-side-images {
   position: absolute;
-  width: 240px;
-  max-width: 28vw;
+  width: 320px;
+  max-width: 32vw;
   z-index: 1;
 }
 
@@ -307,15 +249,14 @@ body {
   right: 4%;
 }
 
-/* Ajustes móviles */
 @media (max-width: 900px) {
   .invite-layout {
     min-height: 640px;
   }
 
   .invite-side-images {
-    width: 190px;
-    max-width: 34vw;
+    width: 240px;
+    max-width: 36vw;
   }
 
   .invite-side-images--top-left {
@@ -344,8 +285,8 @@ body {
   }
 
   .invite-side-images {
-    width: 150px;
-    max-width: 42vw;
+    width: 180px;
+    max-width: 44vw;
   }
 
   .invite-side-images--top-left {
