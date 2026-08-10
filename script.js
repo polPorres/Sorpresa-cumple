@@ -7,22 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const buttonText = document.querySelector(".button-text");
 
   const HOLD_DURATION = 1200;
-  let holdTimer = null;
-  let holdAnimationFrame = null;
+  let holdTimeout = null;
+  let progressFrame = null;
   let holdStart = 0;
-  let isHolding = false;
-  let hasCompleted = false;
+  let holding = false;
+  let completed = false;
 
-  function resetHoldVisuals() {
-    if (holdFill) holdFill.style.width = "0%";
-    if (buttonText) buttonText.textContent = "Hold to open the invitation";
-    openInviteBtn.classList.remove("is-holding");
-  }
+  function updateProgress(now) {
+    if (!holding) return;
 
-  function animateHoldProgress(timestamp) {
-    if (!isHolding) return;
-
-    const elapsed = timestamp - holdStart;
+    const elapsed = now - holdStart;
     const progress = Math.min(elapsed / HOLD_DURATION, 1);
 
     if (holdFill) {
@@ -30,81 +24,89 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (buttonText) {
-      if (progress < 0.35) buttonText.textContent = "Keep holding...";
-      else if (progress < 0.75) buttonText.textContent = "Almost there...";
-      else buttonText.textContent = "Opening...";
+      if (progress < 0.35) {
+        buttonText.textContent = "Sigue pulsando...";
+      } else if (progress < 0.75) {
+        buttonText.textContent = "Casi...";
+      } else {
+        buttonText.textContent = "Abriendo...";
+      }
     }
 
     if (progress < 1) {
-      holdAnimationFrame = requestAnimationFrame(animateHoldProgress);
+      progressFrame = requestAnimationFrame(updateProgress);
     }
   }
 
-  function transitionToInvite() {
+  function showInvite() {
     introScreen.classList.add("is-exiting");
     inviteScreen.classList.add("is-entering");
     inviteScreen.classList.add("screen--active");
 
     setTimeout(() => {
-      introScreen.classList.remove("screen--active");
-      introScreen.classList.remove("is-exiting");
+      introScreen.classList.remove("screen--active", "is-exiting");
       inviteScreen.classList.remove("is-entering");
-    }, 340);
+    }, 350);
   }
 
-  function transitionToIntro() {
+  function showIntro() {
     inviteScreen.classList.add("is-exiting");
     introScreen.classList.add("is-entering");
     introScreen.classList.add("screen--active");
 
     setTimeout(() => {
-      inviteScreen.classList.remove("screen--active");
-      inviteScreen.classList.remove("is-exiting");
+      inviteScreen.classList.remove("screen--active", "is-exiting");
       introScreen.classList.remove("is-entering");
-    }, 340);
+      resetHold();
+    }, 350);
   }
 
-  function startHold() {
-    if (hasCompleted) return;
+  function startHold(event) {
+    event.preventDefault();
+    if (completed || holding) return;
 
-    isHolding = true;
+    holding = true;
     holdStart = performance.now();
     openInviteBtn.classList.add("is-holding");
 
-    holdAnimationFrame = requestAnimationFrame(animateHoldProgress);
+    progressFrame = requestAnimationFrame(updateProgress);
 
-    holdTimer = setTimeout(() => {
-      hasCompleted = true;
-      isHolding = false;
-
+    holdTimeout = setTimeout(() => {
+      completed = true;
+      holding = false;
       openInviteBtn.classList.remove("is-holding");
       openInviteBtn.classList.add("is-complete");
 
       if (holdFill) holdFill.style.width = "100%";
-      if (buttonText) buttonText.textContent = "Opening...";
+      if (buttonText) buttonText.textContent = "Abriendo...";
 
       setTimeout(() => {
         openInviteBtn.classList.remove("is-complete");
-        transitionToInvite();
+        showInvite();
       }, 180);
     }, HOLD_DURATION);
   }
 
   function cancelHold() {
-    if (!isHolding || hasCompleted) return;
-
-    isHolding = false;
-    clearTimeout(holdTimer);
-    cancelAnimationFrame(holdAnimationFrame);
-    resetHoldVisuals();
+    if (!holding || completed) return;
+    clearTimeout(holdTimeout);
+    cancelAnimationFrame(progressFrame);
+    holding = false;
+    resetHoldVisual();
   }
 
-  function resetAfterBack() {
-    hasCompleted = false;
-    isHolding = false;
-    clearTimeout(holdTimer);
-    cancelAnimationFrame(holdAnimationFrame);
-    resetHoldVisuals();
+  function resetHoldVisual() {
+    if (holdFill) holdFill.style.width = "0%";
+    if (buttonText) buttonText.textContent = "Mantén pulsado para ver la sorpresa";
+    openInviteBtn.classList.remove("is-holding");
+  }
+
+  function resetHold() {
+    clearTimeout(holdTimeout);
+    cancelAnimationFrame(progressFrame);
+    holding = false;
+    completed = false;
+    resetHoldVisual();
   }
 
   if (openInviteBtn) {
@@ -112,19 +114,16 @@ document.addEventListener("DOMContentLoaded", () => {
     openInviteBtn.addEventListener("mouseup", cancelHold);
     openInviteBtn.addEventListener("mouseleave", cancelHold);
 
-    openInviteBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      startHold();
-    }, { passive: false });
-
+    openInviteBtn.addEventListener("touchstart", startHold, { passive: false });
     openInviteBtn.addEventListener("touchend", cancelHold);
     openInviteBtn.addEventListener("touchcancel", cancelHold);
+
+    openInviteBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+    });
   }
 
   if (backBtn) {
-    backBtn.addEventListener("click", () => {
-      transitionToIntro();
-      setTimeout(resetAfterBack, 360);
-    });
+    backBtn.addEventListener("click", showIntro);
   }
 });
