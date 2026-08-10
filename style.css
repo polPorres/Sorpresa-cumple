@@ -120,9 +120,11 @@ body {
 .secondary-button {
   border: none;
   cursor: pointer;
-  font-size: 0.98rem;
-  font-weight: 500;
-  padding: 12px 22px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  padding: 16px 30px;
+  min-height: 52px;
+  min-width: 140px;
   border-radius: var(--radius-full);
   transition:
     transform 140ms ease,
@@ -135,6 +137,9 @@ body {
   background: linear-gradient(135deg, #f97373, #fb7185);
   color: #0f172a;
   box-shadow: 0 14px 40px rgba(248, 113, 113, 0.6);
+  font-size: 1.14rem;
+  padding: 18px 34px;
+  min-height: 58px;
 }
 
 .primary-button:hover {
@@ -151,11 +156,13 @@ body {
   position: absolute;
   left: 20px;
   bottom: 20px;
-  background: rgba(15, 23, 42, 0.72);
+  background: rgba(15, 23, 42, 0.78);
   color: var(--text-muted);
   border-radius: var(--radius-full);
   border: 1px solid rgba(148, 163, 184, 0.4);
-  padding-inline: 18px;
+  padding: 14px 24px;
+  min-height: 50px;
+  min-width: 110px;
 }
 
 .secondary-button:hover {
@@ -224,79 +231,158 @@ body {
   object-position: center;
 }
 
-/* -------- Pantalla 2: Invitación -------- */
-
 .rawr-photo {
   object-fit: contain;
   background: rgba(2, 6, 23, 0.65);
   padding: 6px;
 }
 
-.invite-side-images {
-  position: absolute;
-  width: 320px;
-  max-width: 32vw;
-  z-index: 1;
+/* -------- Pantalla 2: Invitación -------- */
+
+.screen--invite {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.invite-background {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(248, 113, 113, 0.22) 0, transparent 42%),
+    radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.18) 0, transparent 45%),
+    radial-gradient(circle at center, rgba(15, 23, 42, 0.96) 0, #020617 58%, #000 100%);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.invite-layout {
+  position: relative;
+  z-index: 1;
+  width: min(980px, 100%);
+  min-height: 620px;
+  padding: 32px 24px 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.invite-card {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 560px);
+  margin: 0 auto;
+  text-align: center;
+  background: radial-gradient(circle at top, rgba(17, 24, 39, 0.98) 0, rgba(2, 6, 23, 0.96) 65%);
+  border-radius: 24px;
+  box-shadow: var(--shadow-soft);
+  padding: 30px 28px 28px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+.invite-title {
+  font-size: clamp(1.6rem, 1.2rem + 1vw, 2.2rem);
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+}
+
+.invite-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  max-width: 48ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.invite-text--highlight {
+  color: #fef3c7;
+}
+
+/* Imágenes flotando alrededor, pero cerca de la tarjeta */
+.invite-side-images {
+  position: absolute;
+  z-index: 1;
+  width: 220px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.invite-side-images .real-photo,
+.invite-side-images .small-photo {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Colocación mucho más equilibrada */
 .invite-side-images--top-left {
-  top: 6%;
-  left: 4%;
+  top: 70px;
+  left: 110px;
 }
 
 .invite-side-images--bottom-right {
-  bottom: 6%;
-  right: 4%;
+  bottom: 70px;
+  right: 110px;
 }
 
-@media (max-width: 900px) {
+/* Ajustes para portátil / tablet */
+@media (max-width: 1100px) {
   .invite-layout {
-    min-height: 640px;
+    width: min(860px, 100%);
+    min-height: 580px;
   }
 
   .invite-side-images {
-    width: 240px;
-    max-width: 36vw;
+    width: 190px;
   }
 
   .invite-side-images--top-left {
-    top: 3%;
-    left: 2%;
+    top: 80px;
+    left: 50px;
   }
 
   .invite-side-images--bottom-right {
-    bottom: 10%;
-    right: 2%;
+    bottom: 80px;
+    right: 50px;
   }
 }
 
-@media (max-width: 600px) {
-  .intro-image {
-    width: min(100%, 280px);
-  }
-
+/* Ajustes móvil */
+@media (max-width: 700px) {
   .invite-layout {
-    min-height: 620px;
-    padding: 20px 12px 72px;
+    min-height: auto;
+    padding: 28px 16px 88px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    justify-items: center;
   }
 
   .invite-card {
-    max-width: 100%;
+    width: 100%;
+    max-width: 520px;
+    order: 2;
+    padding: 26px 20px 24px;
   }
 
   .invite-side-images {
-    width: 180px;
-    max-width: 44vw;
+    position: static;
+    width: min(100%, 240px);
   }
 
   .invite-side-images--top-left {
-    top: 2%;
-    left: 2%;
+    order: 1;
   }
 
   .invite-side-images--bottom-right {
-    bottom: 12%;
-    right: 2%;
+    order: 3;
   }
 
   .secondary-button {
